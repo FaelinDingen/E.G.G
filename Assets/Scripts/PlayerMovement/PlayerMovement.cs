@@ -11,9 +11,13 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector] public Rigidbody rb;
     private bool checkingGround = true;
     [HideInInspector] public bool grounded;
+    private Singleton singleton;
+    private GameObject camera;
 
     private void Awake() {
         rb = GetComponent<Rigidbody>();
+        singleton = GameObject.Find("Singleton").GetComponent<Singleton>();
+        camera = singleton.cameraMovement.gameObject;
     }
 
     private void Update() {
@@ -33,7 +37,18 @@ public class PlayerMovement : MonoBehaviour
         float moveHorizontal = Input.GetAxis("Horizontal");
         float moveVertical = Input.GetAxis("Vertical");
 
-        Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+        // getting angle
+        Vector3 cameraForward = camera.transform.forward;
+        Vector3 cameraRight = camera.transform.right;
+
+        cameraForward.y = 0;
+        cameraRight.y = 0;
+
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+
+        Vector3 movement = (cameraRight * moveHorizontal + cameraForward * moveVertical).normalized;
+
         rb.AddForce(movement * speed);
     }
 

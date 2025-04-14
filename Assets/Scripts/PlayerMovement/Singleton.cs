@@ -4,6 +4,7 @@ public class Singleton : MonoBehaviour
 {
     public static Singleton Instance;
     public PlayerMovement playerMovement;
+    public CameraMovement cameraMovement;
 
 
     private void Awake() {
