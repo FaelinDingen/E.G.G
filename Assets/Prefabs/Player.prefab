@@ -152,6 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraPlayerOffset: {x: 2, y: -5}
   cameraSpeed: 0.01
+  groundedCameraSpeed: 0.02
 --- !u!1 &5727025549776744530
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,8 +272,8 @@ Rigidbody:
   m_GameObject: {fileID: 5727025549776744530}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Drag: 0.3
+  m_AngularDrag: 0.5
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -288,7 +289,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &3722227891481526137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,8 +302,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1065f85d806a3d42bb56d172d773ef5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  jumpForce: 10
+  speed: 10
+  jumpForce: 300
+  groundCheckDistance: 0.8
+  rb: {fileID: 0}
+  grounded: 0
 --- !u!1 &5895145781934703235
 GameObject:
   m_ObjectHideFlags: 0
