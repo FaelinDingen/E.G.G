@@ -18,11 +18,6 @@ public class ArrowLook : MonoBehaviour
     public void SetTarget(Transform target)
     {
         m_Target = target;
-
-    }
-
-    private void Start()
-    {
     }
 
     private void FixedUpdate()

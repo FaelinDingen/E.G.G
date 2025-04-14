@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 74d79430f9f891d43b8f481c116390c7
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - whisk: {fileID: 6991309532392556837, guid: 9d12d00948f0cb94d87e4d73d8583f0e, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

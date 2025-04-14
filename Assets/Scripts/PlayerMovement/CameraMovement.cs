@@ -7,6 +7,9 @@ public class CameraMovement : MonoBehaviour {
     [SerializeField] private float cameraSpeed;
     [SerializeField] private float groundedCameraSpeed;
     [SerializeField] private float rotationSpeed;
+    [SerializeField] private float maxVerticalCameraRotation;
+    [SerializeField] private float minVerticalCameraRotation;
+    [SerializeField] private float cameraHoverDistance;
 
     private Singleton singleton;
     private GameObject player;
@@ -30,16 +33,25 @@ public class CameraMovement : MonoBehaviour {
         float verticalInput = Input.GetAxis("Mouse Y");
         currentHorizontalRotationAngle += horizontalInput * rotationSpeed * Time.deltaTime;
         currentVerticalRotationAngle += verticalInput * rotationSpeed * Time.deltaTime;
-
-        
+        currentVerticalRotationAngle = Mathf.Clamp(currentVerticalRotationAngle, minVerticalCameraRotation, maxVerticalCameraRotation);
     }
 
     private void FixedUpdate() {
-        Quaternion rotation = Quaternion.Euler(Mathf.Clamp(currentVerticalRotationAngle, -40, 80), currentHorizontalRotationAngle, 0);
+        Quaternion rotation = Quaternion.Euler(currentVerticalRotationAngle, currentHorizontalRotationAngle, 0);
         Vector3 offset = rotation * new Vector3(cameraPlayerOffset.y, cameraPlayerOffset.x, -cameraPlayerOffset.y);
         Vector3 targetPosition = player.transform.position + offset;
 
+        
+
         transform.position = Vector3.Lerp(transform.position, targetPosition, currentCameraSpeed);
+        //check for ground under camera
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit)) {
+            float terrainHeight = hit.point.y;
+            if (transform.position.y < terrainHeight + cameraHoverDistance) {
+                transform.position = new Vector3(transform.position.x, terrainHeight + cameraHoverDistance, transform.position.z);
+            }
+        }
         transform.LookAt(player.transform.position + Vector3.up * cameraPlayerOffset.x);
     }
 }

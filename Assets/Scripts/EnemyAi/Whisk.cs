@@ -19,7 +19,7 @@ public class Whisk : MonoBehaviour
         rb.AddForce(direction * whiskSpeed);
     }
 
-    private void OnTriggerEnter(Collider other) {
+    public void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Player")) {
             PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
             Debug.Log("PlayerDied");
