@@ -40,7 +40,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 558a8e2b6826cf840aae193990ba9f2e, type: 3}
   m_Name: ShadowsMidtonesHighlights
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   shadows:
     m_OverrideState: 0
     m_Value: {x: 0.22870791, y: 1, z: 0.3290113, w: 0.46220288}
@@ -49,7 +49,7 @@ MonoBehaviour:
     m_Value: {x: 1, y: 0.69075257, z: 0.27468276, w: 0.4168467}
   highlights:
     m_OverrideState: 1
-    m_Value: {x: 0.94343644, y: 1, z: 0.48058927, w: 0}
+    m_Value: {x: 0.79300153, y: 1, z: 0.946443, w: 0}
   shadowsStart:
     m_OverrideState: 0
     m_Value: 0
@@ -97,3 +97,29 @@ MonoBehaviour:
   - {fileID: -4387063405662914680}
   - {fileID: -451977290382023037}
   - {fileID: -1123380207230230232}
+  - {fileID: 2439040501061354049}
+--- !u!114 &2439040501061354049
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccf1aba9553839d41ae37dd52e9ebcce, type: 3}
+  m_Name: MotionBlur
+  m_EditorClassIdentifier: 
+  active: 1
+  mode:
+    m_OverrideState: 1
+    m_Value: 1
+  quality:
+    m_OverrideState: 1
+    m_Value: 2
+  intensity:
+    m_OverrideState: 1
+    m_Value: 1
+  clamp:
+    m_OverrideState: 1
+    m_Value: 0.05
