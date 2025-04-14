@@ -31,7 +31,11 @@ public class CameraMovement : MonoBehaviour {
         currentHorizontalRotationAngle += horizontalInput * rotationSpeed * Time.deltaTime;
         currentVerticalRotationAngle += verticalInput * rotationSpeed * Time.deltaTime;
 
-        Quaternion rotation = Quaternion.Euler(Mathf.Clamp(currentVerticalRotationAngle, -40,80), currentHorizontalRotationAngle, 0);
+        
+    }
+
+    private void FixedUpdate() {
+        Quaternion rotation = Quaternion.Euler(Mathf.Clamp(currentVerticalRotationAngle, -40, 80), currentHorizontalRotationAngle, 0);
         Vector3 offset = rotation * new Vector3(cameraPlayerOffset.y, cameraPlayerOffset.x, -cameraPlayerOffset.y);
         Vector3 targetPosition = player.transform.position + offset;
 
