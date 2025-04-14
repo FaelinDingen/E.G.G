@@ -25,7 +25,7 @@ public class ArrowLook : MonoBehaviour
     {
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (LookAtTarget)
             transform.LookAt(LookAtTarget);
