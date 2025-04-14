@@ -18,6 +18,9 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         singleton = GameObject.Find("Singleton").GetComponent<Singleton>();
         camera = singleton.cameraMovement.gameObject;
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update() {

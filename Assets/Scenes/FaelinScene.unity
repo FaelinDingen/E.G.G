@@ -958,8 +958,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4628983339588824392, guid: 29817852e670e354e8cb8774d7fc811c, type: 3}
+      propertyPath: cameraSpeed
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 4628983339588824392, guid: 29817852e670e354e8cb8774d7fc811c, type: 3}
       propertyPath: rotationSpeed
       value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 4628983339588824392, guid: 29817852e670e354e8cb8774d7fc811c, type: 3}
+      propertyPath: groundedCameraSpeed
+      value: 0.075
       objectReference: {fileID: 0}
     - target: {fileID: 5633702157028210093, guid: 29817852e670e354e8cb8774d7fc811c, type: 3}
       propertyPath: m_LocalPosition.x
