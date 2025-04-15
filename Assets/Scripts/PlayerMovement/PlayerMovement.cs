@@ -1,10 +1,9 @@
 using System.Collections;
-using TMPro.EditorUtilities;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour
+{
     [SerializeField] private bool launchForward = false;
     [SerializeField] private float speed = 10f;
     [SerializeField] private float jumpForce = 10f;
@@ -42,7 +41,8 @@ public class PlayerMovement : MonoBehaviour {
     private SphereCollider sphereCollider;
     private AudioSource audioSource;
 
-    private void Awake() {
+    private void Awake()
+    {
         rb = GetComponent<Rigidbody>();
         singleton = GameObject.Find("Singleton").GetComponent<Singleton>();
         cameraObject = singleton.cameraMovement.gameObject;
@@ -55,40 +55,52 @@ public class PlayerMovement : MonoBehaviour {
         Cursor.lockState = CursorLockMode.Locked;
     }
 
-    private void Start() {
-        if (launchForward) {
+    private void Start()
+    {
+        if (launchForward)
+        {
             rb.AddForce(Vector3.left * 5000);
         }
     }
-    private void Update() {
+    private void Update()
+    {
         timer += Time.deltaTime;
-        if (Physics.Raycast(gameObject.transform.position, Vector3.down, groundCheckDistance)) {
-            if (checkingGround) {
+        if (Physics.Raycast(gameObject.transform.position, Vector3.down, groundCheckDistance))
+        {
+            if (checkingGround)
+            {
                 grounded = true;
             }
         }
-        else {
+        else
+        {
             grounded = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && grounded) {
+        if (Input.GetKeyDown(KeyCode.Space) && grounded)
+        {
             rb.AddForce(new Vector3(0, jumpForce, 0));
             grounded = false;
             StartCoroutine(jumpCooldown());
         }
 
-        if (Input.GetKeyDown(KeyCode.R)) {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
             Die();
         }
 
-        if (Input.GetMouseButtonDown(0)) {
-            if (changeGravity != null) {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (changeGravity != null)
+            {
                 StopCoroutine(changeGravity);
             }
             changeGravity = StartCoroutine(ChangeGravity(maxGravity));
         }
-        if (Input.GetMouseButtonUp(0)) {
-            if (changeGravity != null) {
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (changeGravity != null)
+            {
                 StopCoroutine(changeGravity);
             }
             changeGravity = StartCoroutine(ChangeGravity(minGravity));
@@ -98,11 +110,14 @@ public class PlayerMovement : MonoBehaviour {
         windSource.volume = Mathf.Clamp(playerSpeed / 75, 0.2f, 1f);
         windSource.pitch = Mathf.Clamp(playerSpeed / 75, 0.5f, 2f);
 
-        if (grounded) {
-            if (grassTimer > grassTarget) {
+        if (grounded)
+        {
+            if (grassTimer > grassTarget)
+            {
                 int i = Random.Range(1, 4);
                 AudioClip currentClip;
-                switch (i) {
+                switch (i)
+                {
                     case 1:
                         currentClip = grass1;
                         break;
@@ -116,13 +131,16 @@ public class PlayerMovement : MonoBehaviour {
                         currentClip = grass1;
                         break;
                 }
-                if (!grassSources[0].isPlaying) {
+                if (!grassSources[0].isPlaying)
+                {
                     grassSources[0].PlayOneShot(currentClip);
                 }
-                else if (!grassSources[1].isPlaying) {
+                else if (!grassSources[1].isPlaying)
+                {
                     grassSources[1].PlayOneShot(currentClip);
                 }
-                else if (!grassSources[2].isPlaying) {
+                else if (!grassSources[2].isPlaying)
+                {
                     grassSources[2].PlayOneShot(currentClip);
                 }
                 grassTimer = 0;
@@ -133,31 +151,38 @@ public class PlayerMovement : MonoBehaviour {
                 grassSources[2].volume = Mathf.Clamp(playerSpeed / 75, 0.2f, 1f);
                 grassSources[2].pitch = Mathf.Clamp(playerSpeed / 75, 0.5f, 2f);
             }
-            else {
+            else
+            {
                 grassTimer += playerSpeed * Time.deltaTime;
             }
         }
 
-        if (playerSpeed > 30) {
+        if (playerSpeed > 30)
+        {
             var emission = windParticleSystem.emission;
             emission.rateOverTime = Mathf.Lerp(0, 50, playerSpeed / 75);
             var main = windParticleSystem.main;
             main.startSpeed = Mathf.Lerp(.3f, 20, playerSpeed / 75);
         }
-        else {
+        else
+        {
             var emission = windParticleSystem.emission;
             emission.rateOverTime = 0;
         }
     }
 
-    private void FixedUpdate() {
-        if (grounded) {
+    private void FixedUpdate()
+    {
+        if (grounded)
+        {
             RaycastHit hit;
-            if (Physics.Raycast(gameObject.transform.position, Vector3.down, out hit, groundCheckDistance)) {
+            if (Physics.Raycast(gameObject.transform.position, Vector3.down, out hit, groundCheckDistance))
+            {
                 groundNormal = hit.normal;
             }
         }
-        else {
+        else
+        {
             groundNormal = Vector3.zero;
         }
 
@@ -186,7 +211,8 @@ public class PlayerMovement : MonoBehaviour {
         rb.AddForce(projectedGravity, ForceMode.Acceleration);
     }
 
-    public void Die() {
+    public void Die()
+    {
         meshRenderer.enabled = false;
         sphereCollider.enabled = false;
         rb.useGravity = false;
@@ -196,28 +222,33 @@ public class PlayerMovement : MonoBehaviour {
         StartCoroutine(LoadLevel());
     }
 
-    IEnumerator jumpCooldown() {
+    IEnumerator jumpCooldown()
+    {
         checkingGround = false;
         yield return new WaitForSeconds(.2f);
         checkingGround = true;
     }
 
-    IEnumerator ChangeGravity(float targetGravity) {
+    IEnumerator ChangeGravity(float targetGravity)
+    {
         float startGravity = currentGravity;
         float timeElapsed;
         Vector3 startColor = new Vector3(playerMaterial.color.r, playerMaterial.color.g, playerMaterial.color.b);
         Vector3 targetColor;
-        if (targetGravity == maxGravity) {
+        if (targetGravity == maxGravity)
+        {
             timeElapsed = currentGravity / targetGravity * transitionTime;
             targetColor = heavyColor;
         }
-        else {
+        else
+        {
             //calculates the time but 2x as fast
             timeElapsed = (-((currentGravity - maxGravity) / (minGravity + maxGravity)) * transitionTime) / 2 + transitionTime / 2;
             targetColor = new Vector3(1, 1, 1);
         }
 
-        while (timeElapsed < transitionTime) {
+        while (timeElapsed < transitionTime)
+        {
             currentGravity = Mathf.Lerp(startGravity, targetGravity, timeElapsed / transitionTime);
             Vector3 c = Vector3.Lerp(startColor, targetColor, timeElapsed / transitionTime);
             playerMaterial.color = new Color(c.x, c.y, c.z);
@@ -230,7 +261,8 @@ public class PlayerMovement : MonoBehaviour {
 
     }
 
-    IEnumerator LoadLevel() {
+    IEnumerator LoadLevel()
+    {
         yield return new WaitForSeconds(2);
         SceneManager.LoadScene(2);
     }
