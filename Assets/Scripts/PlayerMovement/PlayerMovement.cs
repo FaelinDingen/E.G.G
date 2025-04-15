@@ -13,11 +13,17 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] private float transitionTime;
     [SerializeField] private Vector3 heavyColor;
     [SerializeField] private GameObject shards;
+    [SerializeField] private ParticleSystem windParticleSystem;
 
     [Header("Audio")]
+    [SerializeField] private float grassTarget;
+    private float grassTimer;
     [SerializeField] private AudioClip eggCrack;
     [SerializeField] private AudioClip eggCrack2;
-
+    [SerializeField] private AudioClip grass1;
+    [SerializeField] private AudioClip grass2;
+    [SerializeField] private AudioClip grass3;
+    [SerializeField] private AudioSource[] grassSources;
     [SerializeField] private AudioSource windSource;
 
     private float currentGravity = 0;
@@ -79,6 +85,57 @@ public class PlayerMovement : MonoBehaviour {
         Debug.Log(playerSpeed);
         windSource.volume = Mathf.Clamp(playerSpeed / 75, 0.2f, 1f);
         windSource.pitch = Mathf.Clamp(playerSpeed / 75, 0.5f, 2f);
+
+        if (grounded) {
+            if (grassTimer > grassTarget) {
+                int i = Random.Range(1, 4);
+                AudioClip currentClip;
+                switch (i) {
+                    case 1:
+                        currentClip = grass1;
+                        break;
+                    case 2:
+                        currentClip = grass2;
+                        break;
+                    case 3:
+                        currentClip = grass3;
+                        break;
+                    default:
+                        currentClip = grass1;
+                        break;
+                }
+                if (!grassSources[0].isPlaying) {
+                    grassSources[0].PlayOneShot(currentClip);
+                }
+                else if (!grassSources[1].isPlaying) {
+                    grassSources[1].PlayOneShot(currentClip);
+                }
+                else if (!grassSources[2].isPlaying) {
+                    grassSources[2].PlayOneShot(currentClip);
+                }
+                grassTimer = 0;
+                grassSources[0].volume = Mathf.Clamp(playerSpeed / 75, 0.2f, 1f);
+                grassSources[0].pitch = Mathf.Clamp(playerSpeed / 75, 0.5f, 2f);
+                grassSources[1].volume = Mathf.Clamp(playerSpeed / 75, 0.2f, 1f);
+                grassSources[1].pitch = Mathf.Clamp(playerSpeed / 75, 0.5f, 2f);
+                grassSources[2].volume = Mathf.Clamp(playerSpeed / 75, 0.2f, 1f);
+                grassSources[2].pitch = Mathf.Clamp(playerSpeed / 75, 0.5f, 2f);
+            }
+            else {
+                grassTimer += playerSpeed * Time.deltaTime;
+            }
+        }
+
+        if (playerSpeed > 30) {
+            var emission = windParticleSystem.emission;
+            emission.rateOverTime = Mathf.Lerp(0, 50, playerSpeed / 75);
+            var main = windParticleSystem.main;
+            main.startSpeed = Mathf.Lerp(.3f, 20, playerSpeed / 75);
+        }
+        else {
+            var emission = windParticleSystem.emission;
+            emission.rateOverTime = 0;
+        }
     }
 
     private void FixedUpdate() {
@@ -108,7 +165,7 @@ public class PlayerMovement : MonoBehaviour {
         Vector3 movement = (cameraRight * moveHorizontal + cameraForward * moveVertical).normalized;
         Vector3 projectedMovement = Vector3.ProjectOnPlane(movement, groundNormal);
         //debug ray to show the direction of the applied velocity
-        
+
         rb.AddForce(projectedMovement * speed);
 
         Vector3 customGravity = new Vector3(0, -currentGravity, 0);
@@ -123,7 +180,7 @@ public class PlayerMovement : MonoBehaviour {
         rb.useGravity = false;
 
         shards.SetActive(true);
-        audioSource.PlayOneShot(Random.Range(0,2) == 1 ? eggCrack : eggCrack2);
+        audioSource.PlayOneShot(Random.Range(0, 2) == 1 ? eggCrack : eggCrack2);
         StartCoroutine(LoadLevel());
     }
 
