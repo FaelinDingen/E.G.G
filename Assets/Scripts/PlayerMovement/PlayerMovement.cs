@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] private AudioSource windSource;
 
     private float currentGravity = 0;
+    [HideInInspector] public float timer = 0;
 
     [HideInInspector] public Rigidbody rb;
     private bool checkingGround = true;
@@ -60,6 +61,7 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
     private void Update() {
+        timer += Time.deltaTime;
         if (Physics.Raycast(gameObject.transform.position, Vector3.down, groundCheckDistance)) {
             if (checkingGround) {
                 grounded = true;
@@ -73,6 +75,10 @@ public class PlayerMovement : MonoBehaviour {
             rb.AddForce(new Vector3(0, jumpForce, 0));
             grounded = false;
             StartCoroutine(jumpCooldown());
+        }
+
+        if (Input.GetKeyDown(KeyCode.R)) {
+            Die();
         }
 
         if (Input.GetMouseButtonDown(0)) {
@@ -226,6 +232,6 @@ public class PlayerMovement : MonoBehaviour {
 
     IEnumerator LoadLevel() {
         yield return new WaitForSeconds(2);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 }
