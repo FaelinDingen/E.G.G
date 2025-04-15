@@ -84,8 +84,7 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(jumpCooldown());
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
+        if (Input.GetKeyDown(KeyCode.R) && launchForward) {
             Die();
         }
 
