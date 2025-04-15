@@ -13,6 +13,13 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] private float transitionTime;
     [SerializeField] private Vector3 heavyColor;
     [SerializeField] private GameObject shards;
+
+    [Header("Audio")]
+    [SerializeField] private AudioClip eggCrack;
+    [SerializeField] private AudioClip eggCrack2;
+
+    [SerializeField] private AudioSource windSource;
+
     private float currentGravity = 0;
 
     [HideInInspector] public Rigidbody rb;
@@ -25,6 +32,7 @@ public class PlayerMovement : MonoBehaviour {
     private MeshRenderer meshRenderer;
     private Material playerMaterial;
     private SphereCollider sphereCollider;
+    private AudioSource audioSource;
 
     private void Awake() {
         rb = GetComponent<Rigidbody>();
@@ -33,6 +41,7 @@ public class PlayerMovement : MonoBehaviour {
         meshRenderer = gameObject.GetComponent<MeshRenderer>();
         playerMaterial = meshRenderer.material;
         sphereCollider = gameObject.GetComponent<SphereCollider>();
+        audioSource = gameObject.GetComponent<AudioSource>();
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -66,6 +75,10 @@ public class PlayerMovement : MonoBehaviour {
             }
             changeGravity = StartCoroutine(ChangeGravity(minGravity));
         }
+        float playerSpeed = rb.linearVelocity.magnitude;
+        Debug.Log(playerSpeed);
+        windSource.volume = Mathf.Clamp(playerSpeed / 75, 0.2f, 1f);
+        windSource.pitch = Mathf.Clamp(playerSpeed / 75, 0.5f, 2f);
     }
 
     private void FixedUpdate() {
@@ -74,9 +87,9 @@ public class PlayerMovement : MonoBehaviour {
             if (Physics.Raycast(gameObject.transform.position, Vector3.down, out hit, groundCheckDistance)) {
                 groundNormal = hit.normal;
             }
-            else {
-                groundNormal = Vector3.zero;
-            }
+        }
+        else {
+            groundNormal = Vector3.zero;
         }
 
         float moveHorizontal = Input.GetAxis("Horizontal");
@@ -95,11 +108,12 @@ public class PlayerMovement : MonoBehaviour {
         Vector3 movement = (cameraRight * moveHorizontal + cameraForward * moveVertical).normalized;
         Vector3 projectedMovement = Vector3.ProjectOnPlane(movement, groundNormal);
         //debug ray to show the direction of the applied velocity
-        Debug.DrawRay(transform.position, projectedMovement * 5, Color.red, 25);
+        
         rb.AddForce(projectedMovement * speed);
 
         Vector3 customGravity = new Vector3(0, -currentGravity, 0);
         Vector3 projectedGravity = Vector3.ProjectOnPlane(customGravity, groundNormal);
+        Debug.DrawRay(transform.position, projectedGravity * 5, Color.red, 25);
         rb.AddForce(projectedGravity, ForceMode.Acceleration);
     }
 
@@ -109,6 +123,7 @@ public class PlayerMovement : MonoBehaviour {
         rb.useGravity = false;
 
         shards.SetActive(true);
+        audioSource.PlayOneShot(Random.Range(0,2) == 1 ? eggCrack : eggCrack2);
         StartCoroutine(LoadLevel());
     }
 
