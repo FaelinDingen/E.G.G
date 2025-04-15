@@ -22,7 +22,7 @@ public class Whisk : MonoBehaviour
     public void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Player")) {
             PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
-            Debug.Log("PlayerDied");
+            playerMovement.Die();
         }
     }
 }

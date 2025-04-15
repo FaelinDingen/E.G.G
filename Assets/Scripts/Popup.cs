@@ -16,6 +16,7 @@ public class Popup : MonoBehaviour
     public void RemovePopup() {
         Debug.Log("RemovedPopup");
         gameObject.SetActive(false);
+        singleton.WhiskPopupButtons.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

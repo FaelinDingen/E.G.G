@@ -6,7 +6,7 @@ public class Manager : MonoBehaviour
     [SerializeField] private float currentTime;
     [SerializeField] private WhiskSpawner[] whiskSpawners;
 
-    private bool spawnedWhisks;
+    private bool spawnedWhisks = false;
 
     private Singleton singleton;
 
@@ -18,11 +18,13 @@ public class Manager : MonoBehaviour
         currentTime += Time.deltaTime;
         if (!spawnedWhisks && currentTime > whiskSpawnTime) {
             singleton.whiskPopup.SetActive(true);
+            singleton.WhiskPopupButtons.SetActive(true);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             foreach (WhiskSpawner whiskSpawner in whiskSpawners) { 
                 whiskSpawner.SpawnWhisk();
             }
+            spawnedWhisks = true;
         }
     }
 }

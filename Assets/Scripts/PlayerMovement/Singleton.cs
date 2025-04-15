@@ -7,6 +7,9 @@ public class Singleton : MonoBehaviour
     public CameraMovement cameraMovement;
     public AudioSource mainAudioSource;
     public GameObject whiskPopup;
+    public GameObject WhiskPopupButtons;
+    public Pauzer pauzer;
+    public GameObject pauseScreen;
 
 
     private void Awake() {
