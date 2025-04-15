@@ -1783,7 +1783,7 @@ TerrainCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_TerrainData: {fileID: 15600000, guid: c5043792819129545bd829e94b12601d, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: c71380ac3846d4544bef44bc74acb0fa, type: 2}
   m_EnableTreeColliders: 1
 --- !u!218 &1039204072
 Terrain:
@@ -3551,12 +3551,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1065f85d806a3d42bb56d172d773ef5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  launchForward: 0
   speed: 10
   jumpForce: 300
   groundCheckDistance: 0.8
   maxGravity: 40
   minGravity: 0
   transitionTime: 1
+  heavyColor: {x: 0, y: 0, z: 0}
+  shards: {fileID: 0}
+  windParticleSystem: {fileID: 0}
+  grassTarget: 0
+  eggCrack: {fileID: 0}
+  eggCrack2: {fileID: 0}
+  grass1: {fileID: 0}
+  grass2: {fileID: 0}
+  grass3: {fileID: 0}
+  grassSources: []
+  windSource: {fileID: 0}
   rb: {fileID: 0}
   grounded: 0
 --- !u!1660057539 &9223372036854775807
