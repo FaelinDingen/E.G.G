@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour {
+    [SerializeField] private bool launchForward = false;
     [SerializeField] private float speed = 10f;
     [SerializeField] private float jumpForce = 10f;
     [SerializeField] private float groundCheckDistance = 1f;
@@ -53,6 +54,11 @@ public class PlayerMovement : MonoBehaviour {
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+    private void Start() {
+        if (launchForward) {
+            rb.AddForce(Vector3.left * 5000);
+        }
+    }
     private void Update() {
         if (Physics.Raycast(gameObject.transform.position, Vector3.down, groundCheckDistance)) {
             if (checkingGround) {
